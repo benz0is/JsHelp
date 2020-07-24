@@ -3,31 +3,32 @@ import "./App.css";
 import "whatwg-fetch";
 
 class App extends Component {
-  state = {
-    currency: [],
-    firstCur: [],
-    SecondCur: [],
-  };
+  constructor(props) {
+    super(props);
 
-  ChangeCur() {
-    return;
+    this.state = {
+      currency: [],
+
+      firstCur: [],
+
+      SecondCur: [],
+    };
   }
+  ChangeCur() {}
+  ChangeSecondCur() {}
   componentDidMount() {
     fetch(
-      "http://data.fixer.io/api/latest?access_key=ccbb4166e2bb3653c90317b498bbff8a"
+      "http://data.fixer.io/api/latest?access_key=ccbb4166e2bb3653c90317b498bbff8a "
     )
       .then((result) => {
         return result.json();
       })
-      .then((res) => console.log(res.rates))
-      .then((res) => this.setState({ ...this.state, currency: res.rates }));
+      .then((res) => console.log(res))
+      .then((json) => this.setState({ currency: json }))
+      .then(console.log(this.state.currency));
   }
   render() {
-    return (
-      <div className="App">
-        <input type="button" value="EUR" onClick={this.ChangeCur} />
-      </div>
-    );
+    return <div className="App"></div>;
   }
 }
 
