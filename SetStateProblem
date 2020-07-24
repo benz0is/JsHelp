@@ -14,21 +14,29 @@ class App extends Component {
       SecondCur: [],
     };
   }
-  ChangeCur() {}
+  ChangeCur() {
+    console.log(this.state.currency);
+  }
   ChangeSecondCur() {}
   componentDidMount() {
     fetch(
       "http://data.fixer.io/api/latest?access_key=ccbb4166e2bb3653c90317b498bbff8a "
     )
       .then((result) => {
-        return result.json();
+        result.json();
       })
-      .then((res) => console.log(res))
-      .then((json) => this.setState({ currency: json }))
-      .then(console.log(this.state.currency));
+      .then((json) => {
+        console.log(json);
+        this.setState({ currency: json }),
+          () => console.log(this.state.currency);
+      });
   }
   render() {
-    return <div className="App"></div>;
+    return (
+      <div className="App">
+        <input type="button" onClick={this.ChangeCur} />
+      </div>
+    );
   }
 }
 
