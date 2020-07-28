@@ -1,0 +1,32 @@
+import React from "react";
+import "./App.css";
+import debesuota from "./weather/debesuota.png";
+
+export default function Results(props) {
+  const { getWeather } = props;
+
+  function showResults() {
+    return <img src={debesuota} />;
+  }
+
+  return (
+    <div className="forecast">
+      {getWeather !== undefined
+        ? `${(() => {
+            switch (getWeather.weather[0].main) {
+              case "Clouds":
+                return showResults();
+              case "Clear":
+                return "#00FF00";
+              case "Rain":
+                return "#0000FF";
+              default:
+                return "#FFFFFF";
+            }
+          })()} ${(<img src={debesuota}></img>)}City:${getWeather.name}
+      Temperature:
+      ${Math.round(getWeather.main.temp - 273.15)}`
+        : console.log("")}
+    </div>
+  );
+}
