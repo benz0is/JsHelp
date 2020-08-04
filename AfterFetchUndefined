@@ -1,0 +1,32 @@
+import React, { useState } from "react";
+
+export default function Data(props) {
+  const [gameData, setGameData] = useState([]);
+
+  const showTodos = () => {
+    fetch("/todos")
+      .then((res) => res.json())
+      .then((data) => console.log(data.rows))
+      .then((data) => setGameData(data));
+    setTimeout(() => {
+      console.log(gameData);
+    }, 1000);
+  };
+  return (
+    <div>
+      <div>todos</div>
+      <ul>
+        {this.state.gameData.map((gameData) => (
+          <li key={gameData.todo_id}>{gameData.description}</li>
+        ))}
+      </ul>
+      <button
+        onClick={() => {
+          showTodos();
+        }}
+      >
+        button
+      </button>
+    </div>
+  );
+}
