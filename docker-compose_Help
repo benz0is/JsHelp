@@ -1,0 +1,58 @@
+////package.json
+{
+  "name": "reactexpress",
+  "version": "1.0.0",
+  "description": "Starter kit for creating React and Express apps",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "cd client && npm install",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Brad Traversy",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.14.6"
+  },
+  "dependencies": {
+    "concurrently": "^3.5.1",
+    "express": "^4.16.2",
+    "pg": "^8.3.0",
+    "react-router-dom": "^5.2.0"
+  }
+}
+///docker-compose.yml
+
+version: "3"
+services:
+  client_dev:
+    build: ./client
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - 8000:3000
+    working_dir: /home/app/client
+    volumes:
+      - ./client:/home/app/client
+  api_dev:
+    build: ./api
+    command: sh -c "npm run migrate-db && npm install && npm run dev"
+    ports:
+      - 8001:3001
+    working_dir: /home/app/api
+    volumes:
+      - ./api:/home/app/api
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=todo_database
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./db/data/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
